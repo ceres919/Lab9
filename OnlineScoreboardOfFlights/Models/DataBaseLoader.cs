@@ -18,13 +18,8 @@ namespace OnlineScoreboardOfFlights.Models
         public ObservableCollection<ArrivalTableItem> arrivalsCollection = new ObservableCollection<ArrivalTableItem>();
 
         public DataBaseLoader() { }
-
-        //public ObservableCollection<DepartureTableItem> DeparturesCollection { get; set; }
-        //public ObservableCollection<ArrivalTableItem> ArrivalsCollection { get; set; }
-
         public void Load()
         {
-           // string db_path = Directory.GetCurrentDirectory() + "Flights.db";//../../../Flights.db
             using (SQLiteConnection connection = new SQLiteConnection("Data Source=../../../flyyyyy.db"))
             {
                 SQLiteDataAdapter adapter = new SQLiteDataAdapter("SELECT * FROM Departure", connection);
