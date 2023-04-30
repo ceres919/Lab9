@@ -1,0 +1,122 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:local="clr-namespace:OnlineScoreboardOfFlights.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="OnlineScoreboardOfFlights.Views.DepartureTableView">
+	<UserControl.Resources>
+		<local:BitmapAssetValueConverter x:Key="convImage"/>
+		<local:StatusConverter x:Key="convStatus"/>
+		<local:TimeConverter x:Key="convTimeToString"/>
+	</UserControl.Resources>
+
+	<UserControl.Styles>
+		<Style Selector="Image.i2">
+			<Setter Property="Width" Value="100"/>
+			<Setter Property="Height" Value="100"/>
+			<Setter Property="Margin" Value="0,0,10,5"/>
+			<Setter Property="Stretch" Value="UniformToFill"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Top"/>
+		</Style>
+		<Style Selector="TextBlock.t2">
+			<Setter Property="FontSize" Value="16"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+			<Setter Property="TextAlignment" Value="Left"/>
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+		<Style Selector="Grid.g3">
+			<Setter Property="Margin" Value="20,0,20,0"/>
+			<Setter Property="VerticalAlignment" Value="Top"/>
+		</Style>
+		<Style Selector="StackPanel.s2">
+			<Setter Property="TextBlock.FontSize" Value="16"/>
+			<Setter Property="TextBlock.FontWeight" Value="Bold"/>
+			<Setter Property="Margin" Value="20,0,20,0"/>
+			<Setter Property="TextBlock.Margin" Value="20,5,0,10"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="HorizontalAlignment" Value="Left"/>
+		</Style>
+	</UserControl.Styles>
+	
+	<ItemsControl Items="{Binding $parent[Window].DataContext.CurrentCollection}">
+		<ItemsControl.ItemTemplate>
+			<DataTemplate DataType="{x:Type local:DepartureTableItem}">
+				<Expander>
+					<Expander.Header>
+						<Grid ColumnDefinitions="auto,auto,auto,auto,auto,auto" >
+							<TextBlock Classes="t2" Grid.Column="0" Width="70" Text="{Binding FlightNumber}" TextAlignment="Left"/>
+							<TextBlock Classes="t2" Grid.Column="1" Width="300" Padding="30,0,10,0" Text="{Binding Destination}" TextAlignment="Left"/>
+							<TextBlock Classes="t2" Grid.Column="2" Width="150" Padding="30,0,10,0" Text="{Binding ScheduledTime, Converter={StaticResource convTimeToString}, ConverterParameter='time'}"/>
+							<TextBlock Classes="t2" Grid.Column="3" Width="130" Padding="30,0,10,0" Text="{Binding EstimatedTime, Converter={StaticResource convTimeToString}, ConverterParameter='time'}"/>
+							<TextBlock Classes="t2" Grid.Column="4" Width="65" Padding="30,0,15,0" Text="{Binding Sector}"/>
+							<TextBlock Classes="t2" Grid.Column="5" Width="210" Padding="50,0,0,0" Text="{Binding ,Converter={StaticResource convStatus}, ConverterParameter='departure'}"/>
+							<!--<TextBlock Classes="t2" Grid.Column="5" Padding="150,5,0,5" Text="{Binding Converter={StaticResource convStatus}"/>-->
+						</Grid>
+					</Expander.Header>
+					<Grid ColumnDefinitions="*,*,*" RowDefinitions="auto,auto">
+						<Image Classes="i2" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="{Binding ImageSource, Converter={StaticResource convImage}}"/>
+
+						<StackPanel Classes="s2" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" Orientation="Horizontal">
+							<TextBlock Text="{Binding DeparturePoint}" />
+							<TextBlock Text=" → "/>
+							<TextBlock Text="{Binding Destination}"/>
+						</StackPanel>
+						<Grid Classes="g3" Grid.Column="1" Grid.Row="1" ColumnDefinitions="*" RowDefinitions="*,*,*,*,*,*,*,*">
+							<StackPanel Grid.Row="0" Orientation="Horizontal">
+								<TextBlock Text="Номер рейса: "/>
+								<TextBlock Text="{Binding FlightNumber}"/>
+							</StackPanel>
+
+							<StackPanel Grid.Row="1" Orientation="Horizontal">
+								<TextBlock Text="По расписанию: "/>
+								<TextBlock Text="{Binding ScheduledTime, Converter={StaticResource convTimeToString}, ConverterParameter='date_time'}"/>
+							</StackPanel>
+
+							<StackPanel Grid.Row="2" Orientation="Horizontal">
+								<TextBlock Text="Расчетное время: "/>
+								<TextBlock Text="{Binding EstimatedTime, Converter={StaticResource convTimeToString}, ConverterParameter='date_time'}"/>
+							</StackPanel>
+
+							<StackPanel Grid.Row="3" Orientation="Horizontal">
+								<TextBlock Text="Сектор: "/>
+								<TextBlock Text="{Binding Sector}"/>
+							</StackPanel>
+
+							<StackPanel Grid.Row="4" Orientation="Horizontal">
+								<TextBlock Text="Начало регистрации: "/>
+								<TextBlock Text="{Binding RegistrationStartTime, Converter={StaticResource convTimeToString}, ConverterParameter='date_time'}"/>
+							</StackPanel>
+
+							<StackPanel Grid.Row="5" Orientation="Horizontal">
+								<TextBlock Text="Посадка на борт: "/>
+								<TextBlock Text="{Binding BoardingTime, Converter={StaticResource convTimeToString}, ConverterParameter='date_time'}"/>
+							</StackPanel>
+
+							<StackPanel Grid.Row="6" Orientation="Horizontal">
+								<TextBlock Text="Сектор выхода на посадку: "/>
+								<TextBlock Text="{Binding GateSector}"/>
+							</StackPanel>
+						</Grid>
+
+						<Grid Classes="g3" Grid.Column="2" Grid.Row="1" ColumnDefinitions="*" RowDefinitions="*,*,*,*">
+							<StackPanel Grid.Row="0" Orientation="Horizontal">
+								<TextBlock Text="Авиакомпания: "/>
+								<TextBlock Text="{Binding Airline}"/>
+							</StackPanel>
+							<StackPanel Grid.Row="1" Orientation="Horizontal">
+								<TextBlock Text="Тип ВС: "/>
+								<TextBlock Text="{Binding AircraftType}"/>
+							</StackPanel>
+							<TextBlock Grid.Row="2" Text="Стойка регистрации:"/>
+							<TextBlock Grid.Row="3" Text="{Binding Reseption}"/>
+						</Grid>
+					</Grid>
+				</Expander>
+			</DataTemplate>
+		</ItemsControl.ItemTemplate>
+	</ItemsControl>
+</UserControl>
+<!--TextDecorations="Underline" FontWeight="Medium"-->

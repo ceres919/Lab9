@@ -1,0 +1,139 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:OnlineScoreboardOfFlights.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:OnlineScoreboardOfFlights.Models"
+		Background="LightGray" Width="1060" Height="700"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="OnlineScoreboardOfFlights.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="OnlineScoreboardOfFlights">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+	<Window.Resources>
+		<local:BitmapAssetValueConverter x:Key="convImage"/>
+		<local:StatusConverter x:Key="convStatus"/>
+		<local:TimeConverter x:Key="convTimeToString"/>
+	</Window.Resources>
+	
+	<Window.Styles>
+		<Style Selector="Image.i1">
+			<Setter Property="Width" Value="50"/>
+			<Setter Property="Height" Value="50"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+		<Style Selector="TextBlock.t1">
+			<Setter Property="FontSize" Value="18"/>
+			<Setter Property="FontWeight" Value="Medium"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+		<Style Selector="TextBlock.t2">
+			<Setter Property="FontSize" Value="16"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+			<Setter Property="TextAlignment" Value="Left"/>
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+		<!--<Style Selector="TextBlock.t2">
+			<Setter Property="FontSize" Value="16"/>
+			<Setter Property="FontWeight" Value="Medium"/>
+			<Setter Property="Width" Value="300"/>
+			<Setter Property="TextWrapping" Value="Wrap"/>
+			<Setter Property="TextAlignment" Value="Left"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>-->
+		<Style Selector="TextBlock.t3">
+			<Setter Property="FontSize" Value="14"/>
+			<Setter Property="FontWeight" Value="Normal"/>
+			<Setter Property="Width" Value="300"/>
+			<Setter Property="MaxHeight" Value="100"/>
+			<Setter Property="TextWrapping" Value="Wrap"/>
+			<Setter Property="TextAlignment" Value="Left"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+		<Style Selector="TextBlock.t4">
+			<Setter Property="FontSize" Value="14"/>
+			<Setter Property="FontWeight" Value="Light"/>
+			<Setter Property="Foreground" Value="Gray"/>
+			<Setter Property="TextAlignment" Value="Left"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+		<Style Selector="Grid.g2">
+			<Setter Property="Margin" Value="3,5,5,3"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+		<Style Selector="Grid.g3">
+			<Setter Property="Margin" Value="10,0,10,0"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+		<Style Selector="StackPanel.s2">
+			<Setter Property="TextBlock.FontSize" Value="16"/>
+			<Setter Property="TextBlock.FontWeight" Value="Bold"/>
+			<Setter Property="TextBlock.Margin" Value="0,5,0,10"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+		</Style>
+		<Style Selector="StackPanel.s3">
+			<Setter Property="Margin" Value="10,5,10,10"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+		</Style>
+		<Style Selector="Button.b1">
+			<Setter Property="Width" Value="170"/>
+			<Setter Property="Height" Value="60"/>
+			<Setter Property="Foreground" Value="LightGray"/>
+			<Setter Property="Background" Value="DarkGray"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+		</Style>
+		<Style Selector="Button.b2">
+			<Setter Property="Width" Value="100"/>
+			<Setter Property="Height" Value="40"/>
+			<Setter Property="FontSize" Value="20"/>
+			<Setter Property="FontWeight" Value="Medium"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Foreground" Value="WhiteSmoke"/>
+			<Setter Property="Background" Value="Gray"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="HorizontalContentAlignment" Value="Center"/>
+		</Style>
+	</Window.Styles>
+	<StackPanel>
+		<Grid ColumnDefinitions="auto,auto,auto,auto,auto" Margin="5,10,5,10">
+			<Button Name="DepButton" Grid.Column="0" Classes="b1" Command="{Binding OpenDepartureTableCommand}">
+				<Grid ColumnDefinitions="*,*">
+					<Image Classes="i1" Grid.Column="0" Source="/Assets/airplane_departure.png"/>
+					<TextBlock Classes="t1" Grid.Column="1" Text="Вылет"/>
+				</Grid>
+			</Button>
+			<Button Name="ArrButton" Grid.Column="1" Classes="b1" Command="{Binding OpenArrivalTableCommand}">
+				<Grid ColumnDefinitions="*,*">
+					<Image Classes="i1" Grid.Column="0" Source="/Assets/airplane_arrival.png"/>
+					<TextBlock Classes="t1" Grid.Column="1" Text="Прилет"/>
+				</Grid>
+			</Button>
+			<Button Name="Yesterday" Grid.Column="2" Classes="b2" Margin="300,10,0,5" Content="Вчера" Command="{Binding YesterdayButtonCommand}"/>
+			<Button Name="Today" Grid.Column="3" Classes="b2" Content="Сегодня" Margin="10,10,10,5" Command="{Binding TodayButtonCommand}"/>
+			<Button Name="Tomorrow" Grid.Column="4" Classes="b2" Content="Завтра" Margin="10,10,10,5" Command="{Binding TomorrowButtonCommand}"/>
+		</Grid>
+		<Grid ColumnDefinitions="115,300,150,130,85,200">
+			<TextBlock Classes="t4" Grid.Column="0" Text="Рейс" />
+			<TextBlock Classes="t4" Grid.Column="1" Text="{Binding CurrentHeaderText}" />
+			<TextBlock Classes="t4" Grid.Column="2" Text="По расписанию" />
+			<TextBlock Classes="t4" Grid.Column="3" Text="Расчетное" />
+			<TextBlock Classes="t4" Grid.Column="4" Text="Сектор" />
+			<TextBlock Classes="t4" Grid.Column="5" Text="Статус" />
+		</Grid>
+		<ScrollViewer VerticalScrollBarVisibility="Visible">
+			<ContentControl Content="{Binding Content}" MinWidth="800" MinHeight="450" ScrollViewer.VerticalScrollBarVisibility="Visible"/> 
+		</ScrollViewer>
+	</StackPanel>
+</Window>
